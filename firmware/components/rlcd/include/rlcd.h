@@ -33,5 +33,9 @@ void rlcd_set_pixel(int x, int y, bool ink);
 /* Push the framebuffer to the panel. Blocks until the SPI transfer is done. */
 esp_err_t rlcd_flush(void);
 
+/* Read-only access to the packed framebuffer (RLCD_FB_SIZE bytes), for debugging/screenshots. */
+#define RLCD_FB_SIZE (RLCD_WIDTH * RLCD_HEIGHT / 8)
+const uint8_t *rlcd_framebuffer(void);
+
 /* Put the panel to sleep / wake it (display off/on). */
 esp_err_t rlcd_set_power(bool on);

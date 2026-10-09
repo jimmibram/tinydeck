@@ -56,3 +56,9 @@ keyboard if one is seen, otherwise to the strongest keyboard-like device. If
 the keyboard asks for a passkey, the code is shown on the screen; type it on
 the keyboard and press Enter. `kbd pair` in the shell clears bonds and pairs a
 new keyboard. Layout is US for now.
+
+## Screenshots from the device
+
+With the board connected, `python3 firmware/tools/screenshot.py /dev/ttyACM0 shot.png`
+asks the firmware for its framebuffer (Ctrl-\ on the USB console) and renders it
+as a PNG. Useful for checking layouts without looking at the panel.

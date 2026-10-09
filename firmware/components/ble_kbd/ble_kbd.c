@@ -28,33 +28,33 @@ static const char *TAG = "ble_kbd";
 #define BLE_APPEARANCE_KEYBOARD 0x03C1
 
 /* HID keyboard usage IDs */
-#define KEY_A 0x04
-#define KEY_Z 0x1D
-#define KEY_1 0x1E
-#define KEY_0 0x27
-#define KEY_ENTER 0x28
-#define KEY_ESC 0x29
-#define KEY_BACKSPACE 0x2A
-#define KEY_TAB 0x2B
-#define KEY_SPACE 0x2C
-#define KEY_CAPSLOCK 0x39
-#define KEY_F1 0x3A
-#define KEY_F12 0x45
-#define KEY_INSERT 0x49
-#define KEY_HOME 0x4A
-#define KEY_PGUP 0x4B
-#define KEY_DELETE 0x4C
-#define KEY_END 0x4D
-#define KEY_PGDN 0x4E
-#define KEY_RIGHT 0x4F
-#define KEY_LEFT 0x50
-#define KEY_DOWN 0x51
-#define KEY_UP 0x52
-#define KEY_KP_SLASH 0x54
-#define KEY_KP_ENTER 0x58
-#define KEY_KP_1 0x59
-#define KEY_KP_DOT 0x63
-#define KEY_NONUS_BSLASH 0x64
+#define HID_KEY_A 0x04
+#define HID_KEY_Z 0x1D
+#define HID_KEY_1 0x1E
+#define HID_KEY_0 0x27
+#define HID_KEY_ENTER 0x28
+#define HID_KEY_ESC 0x29
+#define HID_KEY_BACKSPACE 0x2A
+#define HID_KEY_TAB 0x2B
+#define HID_KEY_SPACE 0x2C
+#define HID_KEY_CAPSLOCK 0x39
+#define HID_KEY_F1 0x3A
+#define HID_KEY_F12 0x45
+#define HID_KEY_INSERT 0x49
+#define HID_KEY_HOME 0x4A
+#define HID_KEY_PGUP 0x4B
+#define HID_KEY_DELETE 0x4C
+#define HID_KEY_END 0x4D
+#define HID_KEY_PGDN 0x4E
+#define HID_KEY_RIGHT 0x4F
+#define HID_KEY_LEFT 0x50
+#define HID_KEY_DOWN 0x51
+#define HID_KEY_UP 0x52
+#define HID_KEY_KP_SLASH 0x54
+#define HID_KEY_KP_ENTER 0x58
+#define HID_KEY_KP_1 0x59
+#define HID_KEY_KP_DOT 0x63
+#define HID_KEY_NONUS_BSLASH 0x64
 
 #define MOD_CTRL  0x11
 #define MOD_SHIFT 0x22
@@ -91,68 +91,90 @@ typedef struct {
 
 static ble_kbd_t s;
 
+static void vset_status(bool notify, const char *fmt, va_list ap)
+{
+    vsnprintf(s.status, sizeof(s.status), fmt, ap);
+    ESP_LOGI(TAG, "%s", s.status);
+    if (notify && s.cfg.on_status) s.cfg.on_status(s.status);
+}
+
+/* Status worth telling the user about (connection changes, pairing). */
 static void set_status(const char *fmt, ...) __attribute__((format(printf, 1, 2)));
 static void set_status(const char *fmt, ...)
 {
-    va_list ap;
-    va_start(ap, fmt);
-    vsnprintf(s.status, sizeof(s.status), fmt, ap);
-    va_end(ap);
-    ESP_LOGI(TAG, "%s", s.status);
-    if (s.cfg.on_status) s.cfg.on_status(s.status);
+    va_list ap; va_start(ap, fmt); vset_status(true, fmt, ap); va_end(ap);
 }
 
-static void emit(const char *bytes, size_t len)
+/* Routine progress (scanning, retrying): log + status text only. */
+static void set_status_quiet(const char *fmt, ...) __attribute__((format(printf, 1, 2)));
+static void set_status_quiet(const char *fmt, ...)
 {
-    if (s.cfg.on_bytes && len) s.cfg.on_bytes((const uint8_t *)bytes, len);
+    va_list ap; va_start(ap, fmt); vset_status(false, fmt, ap); va_end(ap);
 }
 
-/* Translate one HID usage + modifier byte into output bytes. */
-static void key_to_bytes(uint8_t key, uint8_t mods)
+static void emit(key_event_t ev)
 {
-    bool shift = (mods & MOD_SHIFT) != 0;
-    bool ctrl = (mods & MOD_CTRL) != 0;
+    if (s.cfg.on_key) s.cfg.on_key(&ev);
+}
+
+static uint8_t hid_mods(uint8_t m)
+{
+    uint8_t out = 0;
+    if (m & MOD_CTRL) out |= KMOD_CTRL;
+    if (m & MOD_SHIFT) out |= KMOD_SHIFT;
+    if (m & MOD_ALT) out |= KMOD_ALT;
+    if (m & MOD_GUI) out |= KMOD_GUI;
+    return out;
+}
+
+/* Translate one HID usage + modifier byte into a key event (US layout). */
+static void key_to_event(uint8_t key, uint8_t hmods)
+{
+    bool shift = (hmods & MOD_SHIFT) != 0;
+    uint8_t mods = hid_mods(hmods);
     char c = 0;
 
-    if (key >= KEY_A && key <= KEY_Z) {
-        c = (char)('a' + (key - KEY_A));
-        if (ctrl) { char cc = (char)(c & 0x1F); emit(&cc, 1); return; }
-        if (shift ^ s.caps_lock) c = (char)(c - 'a' + 'A');
-    } else if (key >= KEY_1 && key <= KEY_0) {
-        c = s_num_row[shift][key - KEY_1];
+    if (key >= HID_KEY_A && key <= HID_KEY_Z) {
+        c = (char)('a' + (key - HID_KEY_A));
+        if (!(mods & KMOD_CTRL) && (shift ^ s.caps_lock)) c = (char)(c - 'a' + 'A');
+    } else if (key >= HID_KEY_1 && key <= HID_KEY_0) {
+        c = s_num_row[shift][key - HID_KEY_1];
     } else if (key >= 0x2D && key <= 0x38) {
         c = s_punct[shift][key - 0x2D];
-    } else if (key >= KEY_KP_SLASH && key <= KEY_KP_DOT) {
-        c = s_keypad[key - KEY_KP_SLASH];
+    } else if (key >= HID_KEY_KP_SLASH && key <= HID_KEY_KP_DOT) {
+        c = s_keypad[key - HID_KEY_KP_SLASH];
+        if (c == '\n') { emit(key_code(KEY_ENTER, mods)); return; }
+    } else if (key >= HID_KEY_F1 && key <= HID_KEY_F12) {
+        emit(key_code((key_code_t)(KEY_F1 + (key - HID_KEY_F1)), mods)); return;
     } else {
         switch (key) {
-        case KEY_ENTER:     c = '\n'; break;
-        case KEY_ESC:       c = 0x1B; break;
-        case KEY_BACKSPACE: c = '\b'; break;
-        case KEY_TAB:       c = '\t'; break;
-        case KEY_SPACE:     c = ' '; break;
-        case KEY_NONUS_BSLASH: c = shift ? '|' : '\\'; break;
-        case KEY_UP:     emit("\x1b[A", 3); return;
-        case KEY_DOWN:   emit("\x1b[B", 3); return;
-        case KEY_RIGHT:  emit("\x1b[C", 3); return;
-        case KEY_LEFT:   emit("\x1b[D", 3); return;
-        case KEY_HOME:   emit("\x1b[H", 3); return;
-        case KEY_END:    emit("\x1b[F", 3); return;
-        case KEY_DELETE: emit("\x1b[3~", 4); return;
-        case KEY_INSERT: emit("\x1b[2~", 4); return;
-        case KEY_PGUP:   emit("\x1b[5~", 4); return;
-        case KEY_PGDN:   emit("\x1b[6~", 4); return;
-        default: return;    /* F-keys, media keys, modifiers: ignored */
+        case HID_KEY_ENTER:     emit(key_code(KEY_ENTER, mods)); return;
+        case HID_KEY_ESC:       emit(key_code(KEY_ESC, mods)); return;
+        case HID_KEY_BACKSPACE: emit(key_code(KEY_BACKSPACE, mods)); return;
+        case HID_KEY_TAB:       emit(key_code(KEY_TAB, mods)); return;
+        case HID_KEY_SPACE:     c = ' '; break;
+        case HID_KEY_NONUS_BSLASH: c = shift ? '|' : '\\'; break;
+        case HID_KEY_UP:     emit(key_code(KEY_UP, mods)); return;
+        case HID_KEY_DOWN:   emit(key_code(KEY_DOWN, mods)); return;
+        case HID_KEY_RIGHT:  emit(key_code(KEY_RIGHT, mods)); return;
+        case HID_KEY_LEFT:   emit(key_code(KEY_LEFT, mods)); return;
+        case HID_KEY_HOME:   emit(key_code(KEY_HOME, mods)); return;
+        case HID_KEY_END:    emit(key_code(KEY_END, mods)); return;
+        case HID_KEY_DELETE: emit(key_code(KEY_DELETE, mods)); return;
+        case HID_KEY_INSERT: emit(key_code(KEY_INSERT, mods)); return;
+        case HID_KEY_PGUP:   emit(key_code(KEY_PGUP, mods)); return;
+        case HID_KEY_PGDN:   emit(key_code(KEY_PGDN, mods)); return;
+        default: return;    /* media keys, modifiers: ignored */
         }
     }
-    if (c) emit(&c, 1);
+    if (c) emit(key_char((uint32_t)(uint8_t)c, mods));
 }
 
 static void repeat_timer_cb(void *arg)
 {
     xSemaphoreTake(s.lock, portMAX_DELAY);
     if (s.repeat_key && esp_timer_get_time() >= s.repeat_due_us) {
-        key_to_bytes(s.repeat_key, s.repeat_mods);
+        key_to_event(s.repeat_key, s.repeat_mods);
         s.repeat_due_us = esp_timer_get_time() + REPEAT_PERIOD_MS * 1000;
     }
     xSemaphoreGive(s.lock);
@@ -176,8 +198,8 @@ static void handle_keyboard_report(const uint8_t *data, size_t len)
         for (size_t j = 0; j < 6; j++) if (s.prev_keys[j] == k) { was_down = true; break; }
         if (was_down) continue;
         any_new = true;
-        if (k == KEY_CAPSLOCK) { s.caps_lock = !s.caps_lock; continue; }
-        key_to_bytes(k, mods);
+        if (k == HID_KEY_CAPSLOCK) { s.caps_lock = !s.caps_lock; continue; }
+        key_to_event(k, mods);
         s.repeat_key = k;
         s.repeat_mods = mods;
         s.repeat_due_us = esp_timer_get_time() + REPEAT_DELAY_MS * 1000;
@@ -289,7 +311,7 @@ static void kbd_task(void *arg)
             vTaskDelay(pdMS_TO_TICKS(200));
             continue;
         }
-        set_status("scanning for a BLE keyboard...");
+        set_status_quiet("scanning for a BLE keyboard...");
         size_t n = 0;
         esp_hid_scan_result_t *results = NULL;
         if (esp_hid_scan(SCAN_SECONDS, &n, &results) != ESP_OK) {
@@ -333,7 +355,7 @@ static void kbd_task(void *arg)
                 }
             }
         } else {
-            set_status("no keyboard found (%u BLE devices seen)", (unsigned)n);
+            set_status_quiet("no keyboard found (%u BLE devices seen)", (unsigned)n);
         }
         esp_hid_scan_results_free(results);
         if (!s.connected) {

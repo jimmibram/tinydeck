@@ -4,21 +4,20 @@
  *
  * Scans for BLE HID keyboards, connects and bonds (pairing code is shown via
  * the status callback so the user can type it on the keyboard), then
- * translates HID key reports into bytes: printable characters as UTF-8,
- * Enter -> '\n', Backspace -> 0x08, Tab, Escape, Ctrl+letter -> control
- * codes, and cursor keys as ANSI escape sequences (ESC [ A/B/C/D, etc).
- * Host-side key repeat is implemented here, as HID keyboards do not repeat.
+ * translates HID key reports into key_event_t (see input.h). Host-side key
+ * repeat is implemented here, as HID keyboards do not repeat.
  */
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdint.h>
 #include "esp_err.h"
+#include "input.h"
 
-typedef void (*ble_kbd_bytes_cb_t)(const uint8_t *data, size_t len);
+typedef void (*ble_kbd_key_cb_t)(const key_event_t *ev);
 typedef void (*ble_kbd_status_cb_t)(const char *msg);
 
 typedef struct {
-    ble_kbd_bytes_cb_t on_bytes;      /* decoded key presses */
+    ble_kbd_key_cb_t on_key;          /* decoded key presses */
     ble_kbd_status_cb_t on_status;    /* human readable status / pairing messages */
 } ble_kbd_config_t;
 

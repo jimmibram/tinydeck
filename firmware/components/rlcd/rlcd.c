@@ -20,7 +20,6 @@ static const char *TAG = "rlcd";
  *  - each byte packs a 2 (x) by 4 (y) block of pixels
  *  - 3 bytes per column address, 75 bytes per page, 15000 bytes per frame
  */
-#define RLCD_FB_SIZE   (RLCD_WIDTH * RLCD_HEIGHT / 8)
 #define RLCD_BYTES_PER_PAGE  (RLCD_HEIGHT / 4)
 
 #define RLCD_SPI_HOST  SPI3_HOST
@@ -160,6 +159,8 @@ esp_err_t rlcd_flush(void)
     }
     return ESP_OK;
 }
+
+const uint8_t *rlcd_framebuffer(void) { return s_fb; }
 
 esp_err_t rlcd_set_power(bool on)
 {

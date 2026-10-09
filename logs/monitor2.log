@@ -1,27 +1,0 @@
---- esp-idf-monitor 1.10.0 on /dev/ttyACM0 115200
---- Standard input is not a TTY, running in non-interactive mode. Reading commands from stdin: reset, flash, flash-all, app-flash, output, log, timestamps, bootloader, send <text>, sleep <seconds>, expect [--timeout <seconds>] <regex>, exit | Quit: 'exit' command, EOF or Ctrl+C
---- No commands on standard input, watching serial output only...
- (33190) ESP_HID_GAP: BLE GAP SEC_REQ
-[0;32mI (33542) ESP_HID_GAP: BLE GAP KEY type = ESP_LE_KEY_PENC[0m
-[0;32mI (33569) ESP_HID_GAP: BLE GAP KEY type = ESP_LE_KEY_PID[0m
-[0;32mI (33570) ESP_HID_GAP: BLE GAP KEY type = ESP_LE_KEY_LENC[0m
-[0;32mI (33570) ESP_HID_GAP: BLE GAP KEY type = ESP_LE_KEY_LID[0m
-[0;32mI (33589) ESP_HID_GAP: BLE GAP AUTH SUCCESS[0m
-[0;32mI (33589) ble_kbd: paired[0m
-[K[kbd] paired
-> I (35166) ble_kbd: connected: Bluetooth Keyboard
-[K[kbd] connected: Bluetooth Keyboard
-> I (35215) ble_kbd: battery 100%
-kkdjjsssuii
-unknown command: kkdjjsssuii (try 'help')
-> this is great
-unknown command: this (try 'help')
-> listen
-unknown command: listen (try 'help')
-> jjxhg
-unknown command: jjxhg (try 'help')
-> 256777812hjjdkkkkkkhj
-unknown command: 256777812hjjdkkkkkkhj (try 'help')
-> it works
-unknown command: it (try 'help')
-> 
