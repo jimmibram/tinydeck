@@ -1,0 +1,94 @@
+--- esp-idf-monitor 1.10.0 on /dev/ttyACM0 115200
+--- Standard input is not a TTY, running in non-interactive mode. Reading commands from stdin: reset, flash, flash-all, app-flash, output, log, timestamps, bootloader, send <text>, sleep <seconds>, expect [--timeout <seconds>] <regex>, exit | Quit: 'exit' command, EOF or Ctrl+C
+--- No commands on standard input, watching serial output only...
+014) BLE_INIT: Using main XTAL as clock source
+[0;32mI (1014) BLE_INIT: Feature Config, ADV:1, BLE_50:1, DTM:1, SCAN:1, CCA:0, SMP:1, CONNECT:1[0m
+[0;32mI (1016) BLE_INIT: Bluetooth MAC: 94:a9:90:df:24:aa[0m
+[0;32mI (1017) phy_init: phy_version 712,87e8c20e,Apr 13 2026,18:51:10[0m
+[0;33mW (1018) phy_init: failed to load RF calibration data (0xffffffff), falling back to full calibration[0m
+mini-pc  (type 'help')
+> I (1046) phy_init: Saving new calibration data due to checksum failure or outdated calibration data, mode(2)
+[0;32mI (1069) ble_kbd: own address 94:a9:90:df:24:aa, 0 bonded device(s)[0m
+[0;32mI (1070) ble_kbd: scanning for a BLE keyboard...[0m
+[K[kbd] scanning for a BLE keyboard...
+> I (1072) main: up
+[0;32mI (1073) main_task: Returned from app_main()[0m
+BLE: 9b:16:00:09:39:33, RSSI: -92, UUID: 0x0000, APPEARANCE: 0x0000, ADDR_TYPE: 'PUBLIC'
+BLE: 49:1d:43:ab:53:7f, RSSI: -59, UUID: 0x0000, APPEARANCE: 0x0000, ADDR_TYPE: 'RANDOM'
+BLE: bc:89:f8:8c:bf:87, RSSI: -70, UUID: 0x0000, APPEARANCE: 0x0000, ADDR_TYPE: 'PUBLIC', NAME: 'net'
+BLE: fc:f2:06:bd:41:56, RSSI: -81, UUID: 0x0000, APPEARANCE: 0x0000, ADDR_TYPE: 'RANDOM', NAME: 'N03WP'
+BLE: 73:fc:30:d5:71:ac, RSSI: -91, UUID: 0x0000, APPEARANCE: 0x0000, ADDR_TYPE: 'RANDOM'
+BLE: d6:35:29:80:7d:6d, RSSI: -87, UUID: 0x0000, APPEARANCE: 0x0000, ADDR_TYPE: 'RANDOM'
+BLE: e0:02:fa:90:8a:4e, RSSI: -61, UUID: 0x0000, APPEARANCE: 0x0000, ADDR_TYPE: 'RANDOM'
+BLE: 7f:a8:f1:45:8b:e3, RSSI: -99, UUID: 0x0000, APPEARANCE: 0x0000, ADDR_TYPE: 'RANDOM'
+BLE: c4:f7:c1:4c:01:68, RSSI: -94, UUID: 0x0000, APPEARANCE: 0x0000, ADDR_TYPE: 'PUBLIC'
+BLE: 71:c9:d6:d7:8d:a1, RSSI: -84, UUID: 0x0000, APPEARANCE: 0x0000, ADDR_TYPE: 'RANDOM', NAME: 'Google Fitbit Air'
+BLE: f4:89:80:32:d1:fa, RSSI: -72, UUID: 0x0000, APPEARANCE: 0x0000, ADDR_TYPE: 'RANDOM'
+[0;32mI (6073) ble_kbd: no keyboard found (0 BLE devices seen)[0m
+[K[kbd] no keyboard found (0 BLE devices seen)
+> I (7574) ble_kbd: scanning for a BLE keyboard...
+[K[kbd] scanning for a BLE keyboard...
+> BLE: 9b:16:00:09:39:33, RSSI: -86, UUID: 0x0000, APPEARANCE: 0x0000, ADDR_TYPE: 'PUBLIC'
+BLE: bc:89:f8:8c:bf:87, RSSI: -64, UUID: 0x0000, APPEARANCE: 0x0000, ADDR_TYPE: 'PUBLIC', NAME: 'net'
+BLE: 7f:a8:f1:45:8b:e3, RSSI: -98, UUID: 0x0000, APPEARANCE: 0x0000, ADDR_TYPE: 'RANDOM'
+BLE: fc:f2:06:bd:41:56, RSSI: -84, UUID: 0x0000, APPEARANCE: 0x0000, ADDR_TYPE: 'RANDOM', NAME: 'N03WP'
+BLE: d6:35:29:80:7d:6d, RSSI: -76, UUID: 0x0000, APPEARANCE: 0x0000, ADDR_TYPE: 'RANDOM'
+BLE: 73:fc:30:d5:71:ac, RSSI: -92, UUID: 0x0000, APPEARANCE: 0x0000, ADDR_TYPE: 'RANDOM'
+BLE: c4:f7:c1:4c:01:68, RSSI: -95, UUID: 0x0000, APPEARANCE: 0x0000, ADDR_TYPE: 'PUBLIC'
+BLE: 49:1d:43:ab:53:7f, RSSI: -79, UUID: 0x0000, APPEARANCE: 0x0000, ADDR_TYPE: 'RANDOM'
+BLE: e4:76:fe:d0:56:28, RSSI: -87, UUID: 0x0000, APPEARANCE: 0x0000, ADDR_TYPE: 'RANDOM', NAME: 'UH_E476FED05628'
+BLE: fc:f2:06:bd:41:56, RSSI: -89, UUID: 0x0000, APPEARANCE: 0x0000, ADDR_TYPE: 'RANDOM'
+BLE: e0:02:fa:90:8a:4e, RSSI: -68, UUID: 0x0000, APPEARANCE: 0x0000, ADDR_TYPE: 'RANDOM'
+BLE: f4:89:80:32:d1:fa, RSSI: -66, UUID: 0x0000, APPEARANCE: 0x0000, ADDR_TYPE: 'RANDOM'
+[0;32mI (12579) ble_kbd: no keyboard found (0 BLE devices seen)[0m
+[K[kbd] no keyboard found (0 BLE devices seen)
+> I (14080) ble_kbd: scanning for a BLE keyboard...
+[K[kbd] scanning for a BLE keyboard...
+> BLE: 9b:16:00:09:39:33, RSSI: -89, UUID: 0x0000, APPEARANCE: 0x0000, ADDR_TYPE: 'PUBLIC'
+BLE: 73:fc:30:d5:71:ac, RSSI: -92, UUID: 0x0000, APPEARANCE: 0x0000, ADDR_TYPE: 'RANDOM'
+BLE: bc:89:f8:8c:bf:87, RSSI: -62, UUID: 0x0000, APPEARANCE: 0x0000, ADDR_TYPE: 'PUBLIC', NAME: 'net'
+BLE: d6:35:29:80:7d:6d, RSSI: -88, UUID: 0x0000, APPEARANCE: 0x0000, ADDR_TYPE: 'RANDOM'
+BLE: 7f:a8:f1:45:8b:e3, RSSI: -96, UUID: 0x0000, APPEARANCE: 0x0000, ADDR_TYPE: 'RANDOM'
+BLE: e4:76:fe:d0:56:28, RSSI: -83, UUID: 0x0000, APPEARANCE: 0x0000, ADDR_TYPE: 'RANDOM', NAME: 'UH_E476FED05628'
+BLE: 49:1d:43:ab:53:7f, RSSI: -64, UUID: 0x0000, APPEARANCE: 0x0000, ADDR_TYPE: 'RANDOM'
+BLE: c4:f7:c1:4c:01:68, RSSI: -93, UUID: 0x0000, APPEARANCE: 0x0000, ADDR_TYPE: 'PUBLIC'
+BLE: fc:f2:06:bd:41:56, RSSI: -88, UUID: 0x0000, APPEARANCE: 0x0000, ADDR_TYPE: 'RANDOM', NAME: 'N03WP'
+BLE: 71:c9:d6:d7:8d:a1, RSSI: -74, UUID: 0x0000, APPEARANCE: 0x0000, ADDR_TYPE: 'RANDOM', NAME: 'Google Fitbit Air'
+BLE: 49:1d:43:ab:53:7f, RSSI: -69, UUID: 0x0000, APPEARANCE: 0x0000, ADDR_TYPE: 'RANDOM'
+BLE: e0:02:fa:90:8a:4e, RSSI: -70, UUID: 0x0000, APPEARANCE: 0x0000, ADDR_TYPE: 'RANDOM'
+BLE: f4:89:80:32:d1:fa, RSSI: -70, UUID: 0x0000, APPEARANCE: 0x0000, ADDR_TYPE: 'RANDOM'
+[0;32mI (19083) ble_kbd: no keyboard found (0 BLE devices seen)[0m
+[K[kbd] no keyboard found (0 BLE devices seen)
+> I (20585) ble_kbd: scanning for a BLE keyboard...
+[K[kbd] scanning for a BLE keyboard...
+> BLE: 9b:16:00:09:39:33, RSSI: -88, UUID: 0x0000, APPEARANCE: 0x0000, ADDR_TYPE: 'PUBLIC'
+BLE: bc:89:f8:8c:bf:87, RSSI: -62, UUID: 0x0000, APPEARANCE: 0x0000, ADDR_TYPE: 'PUBLIC', NAME: 'net'
+BLE: e4:76:fe:d0:56:28, RSSI: -91, UUID: 0x0000, APPEARANCE: 0x0000, ADDR_TYPE: 'RANDOM', NAME: 'UH_E476FED05628'
+BLE: 49:1d:43:ab:53:7f, RSSI: -75, UUID: 0x0000, APPEARANCE: 0x0000, ADDR_TYPE: 'RANDOM'
+BLE: e0:02:fa:90:8a:4e, RSSI: -75, UUID: 0x0000, APPEARANCE: 0x0000, ADDR_TYPE: 'RANDOM'
+BLE: 71:c9:d6:d7:8d:a1, RSSI: -75, UUID: 0x0000, APPEARANCE: 0x0000, ADDR_TYPE: 'RANDOM', NAME: 'Google Fitbit Air'
+BLE: fc:f2:06:bd:41:56, RSSI: -88, UUID: 0x0000, APPEARANCE: 0x0000, ADDR_TYPE: 'RANDOM', NAME: 'N03WP'
+BLE: d6:35:29:80:7d:6d, RSSI: -79, UUID: 0x0000, APPEARANCE: 0x0000, ADDR_TYPE: 'RANDOM'
+BLE: 73:fc:30:d5:71:ac, RSSI: -94, UUID: 0x0000, APPEARANCE: 0x0000, ADDR_TYPE: 'RANDOM'
+BLE: f4:89:80:32:d1:fa, RSSI: -68, UUID: 0x0000, APPEARANCE: 0x0000, ADDR_TYPE: 'RANDOM'
+[0;32mI (25588) ble_kbd: no keyboard found (0 BLE devices seen)[0m
+[K[kbd] no keyboard found (0 BLE devices seen)
+> I (27090) ble_kbd: scanning for a BLE keyboard...
+[K[kbd] scanning for a BLE keyboard...
+> BLE: 9b:16:00:09:39:33, RSSI: -82, UUID: 0x0000, APPEARANCE: 0x0000, ADDR_TYPE: 'PUBLIC'
+BLE: 7f:a8:f1:45:8b:e3, RSSI: -92, UUID: 0x0000, APPEARANCE: 0x0000, ADDR_TYPE: 'RANDOM'
+BLE: e0:02:fa:90:8a:4e, RSSI: -69, UUID: 0x0000, APPEARANCE: 0x0000, ADDR_TYPE: 'RANDOM'
+BLE: bc:89:f8:8c:bf:87, RSSI: -63, UUID: 0x0000, APPEARANCE: 0x0000, ADDR_TYPE: 'PUBLIC', NAME: 'net'
+BLE: c4:f7:c1:4c:01:68, RSSI: -92, UUID: 0x0000, APPEARANCE: 0x0000, ADDR_TYPE: 'PUBLIC'
+BLE: 49:1d:43:ab:53:7f, RSSI: -69, UUID: 0x0000, APPEARANCE: 0x0000, ADDR_TYPE: 'RANDOM'
+BLE: fc:f2:06:bd:41:56, RSSI: -84, UUID: 0x0000, APPEARANCE: 0x0000, ADDR_TYPE: 'RANDOM', NAME: 'N03WP'
+BLE: 71:c9:d6:d7:8d:a1, RSSI: -89, UUID: 0x0000, APPEARANCE: 0x0000, ADDR_TYPE: 'RANDOM', NAME: 'Google Fitbit Air'
+BLE: d6:35:29:80:7d:6d, RSSI: -94, UUID: 0x0000, APPEARANCE: 0x0000, ADDR_TYPE: 'RANDOM'
+BLE: 73:fc:30:d5:71:ac, RSSI: -92, UUID: 0x0000, APPEARANCE: 0x0000, ADDR_TYPE: 'RANDOM'
+BLE: f4:89:80:32:d1:fa, RSSI: -70, UUID: 0x0000, APPEARANCE: 0x0000, ADDR_TYPE: 'RANDOM'
+BLE: e4:76:fe:d0:56:28, RSSI: -75, UUID: 0x0000, APPEARANCE: 0x0000, ADDR_TYPE: 'RANDOM', NAME: 'UH_E476FED05628'
+BLE: f9:aa:1e:61:b5:9d, RSSI: -46, UUID: 0x1812, APPEARANCE: 0x03c1, ADDR_TYPE: 'RANDOM', NAME: 'Bluetooth Keyboard'
+[0;32mI (32093) ble_kbd:   f9:aa:1e:61:b5:9d rssi -46 usage GENERIC appearance 0x03c1 name 'Bluetooth Keyboard'[0m
+[0;32mI (32094) ble_kbd: connecting to Bluetooth Keyboard[0m
+[K[kbd] connecting to Bluetooth Keyboard
+> 

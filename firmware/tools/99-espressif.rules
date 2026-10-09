@@ -1,0 +1,4 @@
+# Espressif USB JTAG/serial debug unit (ESP32-S3 built-in USB) - allow non-root access
+SUBSYSTEM=="tty", ATTRS{idVendor}=="303a", ATTRS{idProduct}=="1001", MODE="0666", TAG+="uaccess"
+# Espressif USB serial bootloader (download mode)
+SUBSYSTEM=="tty", ATTRS{idVendor}=="303a", ATTRS{idProduct}=="1002", MODE="0666", TAG+="uaccess"
